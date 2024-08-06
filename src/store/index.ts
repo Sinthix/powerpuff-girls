@@ -1,4 +1,3 @@
-// src/store/index.ts
 import { createStore } from 'vuex';
 import axios from 'axios';
 import { API_ENDPOINTS } from '../configs/api';

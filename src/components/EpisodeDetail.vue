@@ -1,4 +1,3 @@
-<!-- src/components/EpisodeDetail.vue -->
 <template>
   <div>
     <h1 v-if="!loading">{{ episode.name }}</h1>

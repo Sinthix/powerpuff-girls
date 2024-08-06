@@ -1,4 +1,3 @@
-// src/router/index.ts
 import { createRouter, createWebHistory } from 'vue-router';
 import ShowPage from '../pages/ShowPage.vue';
 import EpisodeDetail from '../components/EpisodeDetail.vue';

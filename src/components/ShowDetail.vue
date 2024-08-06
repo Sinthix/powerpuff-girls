@@ -1,4 +1,3 @@
-<!-- src/components/ShowDetail.vue -->
 <template>
   <div>
     <h1>{{ show.name }}</h1>
