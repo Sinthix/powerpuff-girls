@@ -84,7 +84,6 @@ h3 {
   margin-bottom: 20px;
 }
 .col-2 {
-  /* Adjust width for 5 columns per row */
   flex: 0 0 10%;
   max-width: 10%;
 }
