@@ -6,6 +6,8 @@ interface State {
   episodes: any[];
 }
 
+const BASE_URL = "https://api.tvmaze.com"
+
 const store = createStore<State>({
   state: {
     show: {},
@@ -21,11 +23,11 @@ const store = createStore<State>({
   },
   actions: {
     async fetchShow({ commit }) {
-      const response = await axios.get('https://api.tvmaze.com/shows/6771');
+      const response = await axios.get(`${BASE_URL}/shows/6771`);
       commit('setShow', response.data);
     },
     async fetchEpisodes({ commit }) {
-      const response = await axios.get('https://api.tvmaze.com/shows/6771/episodes');
+      const response = await axios.get(`${BASE_URL}/shows/6771/episodes`);
       commit('setEpisodes', response.data);
     }
   }
