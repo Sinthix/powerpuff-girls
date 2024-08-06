@@ -6,14 +6,14 @@
     </div>
     <div v-else-if="Object.keys(episodesBySeason).length > 0">
       <div v-for="(episodes, season) in episodesBySeason" :key="season">
-        <h3>Season {{ season }}</h3>
+        <h2>Season {{ season }}</h2>
         <div class="row g-4">
           <div v-for="episode in episodes" :key="episode.id" class="col-2">
             <div class="card h-100">
               <img :src="episode.image ? episode.image.medium : 'https://via.placeholder.com/110x65'" class="card-img-top" :alt="episode.name" />
               <div class="card-body">
                 <h6 class="card-title">{{ episode.name }}</h6>
-                <router-link :to="{ name: 'episode', params: { id: episode.id }}" class="btn btn-primary">View Details</router-link>
+                <router-link :to="{ name: 'episode', params: { id: episode.id }}" class="btn btn-outline-success">View Details</router-link>
               </div>
             </div>
           </div>
