@@ -1,3 +1,4 @@
+<!-- src/App.vue -->
 <template>
   <div id="app">
     <header>
@@ -37,3 +38,16 @@ header {
 }
 
 nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+}
+
+nav a.router-link-active {
+  font-weight: bold;
+}
+
+main {
+  padding: 20px;
+}
+</style>
