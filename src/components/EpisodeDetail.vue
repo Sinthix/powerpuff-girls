@@ -1,38 +1,64 @@
+<!-- src/components/EpisodeDetail.vue -->
 <template>
-  <div v-if="episode">
-    <h1>{{ episode.name }}</h1>
-    <p v-html="episode.summary"></p>
-    <p><strong>Airdate:</strong> {{ episode.airdate }}</p>
-    <p><strong>Runtime:</strong> {{ episode.runtime }} minutes</p>
+  <div>
+    <h1 v-if="!loading">{{ episode.name }}</h1>
+    <div v-if="loading" class="text-center">
+      <p>Loading...</p>
+    </div>
+    <img v-if="!loading && episode.image" :src="episode.image.original" class="img-fluid mb-4" :alt="episode.name" />
+    <p v-if="!loading" v-html="episode.summary"></p>
+    <div v-if="!loading && !episode.image">
+      <img src="https://via.placeholder.com/210x295" class="img-fluid mb-4" :alt="episode.name" />
+    </div>
+    <router-link :to="{ name: 'show' }" class="btn btn-secondary">Back to Show</router-link>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import axios from 'axios';
+import { useStore } from 'vuex';
 
 export default defineComponent({
+  name: 'EpisodeDetail',
   setup() {
     const route = useRoute();
-    const episode = computed(() => null);
-    
-    const fetchEpisode = async (id: string) => {
-      const response = await axios.get(`https://api.tvmaze.com/episodes/${id}`);
-      episode.value = response.data;
-    };
+    const store = useStore();
+    const episode = ref<any>({});
+    const loading = ref(true);
+    const episodeId = route.params.id as string;
 
-    onMounted(() => {
-      fetchEpisode(route.params.id as string);
+    onMounted(async () => {
+      try {
+        await store.dispatch('fetchEpisode', episodeId);
+        episode.value = store.state.episodes.find((ep: any) => ep.id === parseInt(episodeId));
+      } catch (error) {
+        console.error('Error fetching episode:', error);
+      } finally {
+        loading.value = false;
+      }
     });
 
-    return { episode };
+    return {
+      episode,
+      loading
+    };
   }
 });
 </script>
 
 <style scoped>
 h1 {
-  font-size: 2em;
+  margin-bottom: 20px;
+}
+p {
+  margin-bottom: 40px;
+}
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+.btn {
+  margin-top: 20px;
 }
 </style>

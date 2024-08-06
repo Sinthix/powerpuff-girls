@@ -1,10 +1,11 @@
+// src/router/index.ts
 import { createRouter, createWebHistory } from 'vue-router';
 import ShowPage from '../pages/ShowPage.vue';
-import EpisodesPage from '../pages/EpisodesPage.vue';
+import EpisodeDetail from '../components/EpisodeDetail.vue';
 
 const routes = [
-  { path: '/', component: ShowPage },
-  { path: '/episode/:id', component: EpisodesPage, props: true }
+  { path: '/', name: 'show', component: ShowPage },
+  { path: '/episode/:id', name: 'episode', component: EpisodeDetail, props: true }
 ];
 
 const router = createRouter({
