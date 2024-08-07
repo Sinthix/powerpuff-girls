@@ -4,6 +4,9 @@
     <div v-if="loading" class="text-center">
       <p>Loading...</p>
     </div>
+    <div v-else-if="error" class="text-center">
+      <p>{{ errorMessage }}</p>
+    </div>
     <div v-else-if="Object.keys(episodesBySeason).length > 0">
       <div v-for="(episodes, season) in episodesBySeason" :key="season">
         <h2>Season {{ season }}</h2>
@@ -36,13 +39,20 @@ export default defineComponent({
     const store = useStore();
     const episodes = ref<any[]>([]);
     const loading = ref(true);
+    const error = ref(false);
+    const errorMessage = ref('Error fetching episodes. Please try again later.');
 
     const fetchEpisodes = async () => {
       try {
         await store.dispatch('fetchEpisodes');
         episodes.value = store.state.episodes;
-      } catch (error) {
-        console.error('Error fetching episodes:', error);
+      } catch (err) {
+        error.value = true;
+        if (err instanceof Error) {
+          console.error('Error fetching episodes:', err.message);
+        } else {
+          console.error('Error fetching episodes:', err);
+        }
       } finally {
         loading.value = false;
       }
@@ -66,7 +76,9 @@ export default defineComponent({
 
     return {
       episodesBySeason,
-      loading
+      loading,
+      error,
+      errorMessage
     };
   }
 });
@@ -86,5 +98,17 @@ h3 {
 .col-2 {
   flex: 0 0 10%;
   max-width: 10%;
+}
+@media (max-width: 768px) {
+  .col-2 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+@media (max-width: 576px) {
+  .col-2 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }
 </style>

@@ -4,6 +4,9 @@
     <div v-if="loading" class="text-center">
       <p>Loading...</p>
     </div>
+    <div v-else-if="error" class="text-center">
+      <p>{{ errorMessage }}</p>
+    </div>
     <img v-else :src="show.image ? show.image.original : 'https://via.placeholder.com/210x295'" class="img-fluid mb-4" :alt="show.name" />
     <p v-if="!loading" v-html="show.summary"></p>
     <EpisodeList />
@@ -24,13 +27,18 @@ export default defineComponent({
     const store = useStore();
     const show = ref<any>({});
     const loading = ref(true);
+    const error = ref(false);
+    const errorMessage = ref('Error fetching show details. Please try again later.');
 
     onMounted(async () => {
       try {
         await store.dispatch('fetchShow');
         show.value = store.state.show;
-      } catch (error) {
-        console.error('Error fetching show:', error);
+      } catch (err) {
+        error.value = true;
+        if (err instanceof Error) {
+          errorMessage.value = `Error fetching show: ${err.message}`;
+        }
       } finally {
         loading.value = false;
       }
@@ -38,7 +46,9 @@ export default defineComponent({
 
     return {
       show,
-      loading
+      loading,
+      error,
+      errorMessage
     };
   }
 });
