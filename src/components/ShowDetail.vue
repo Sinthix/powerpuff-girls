@@ -18,17 +18,6 @@ import { defineComponent, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import EpisodeList from './EpisodeList.vue';
 
-/** I could and should create a fodlder for the interfaces 
- so I wouldn't repeat myself but this is just to show 
-how to fix the "any's" **/
-
-interface Show {
-  id: number;
-  name: string;
-  image: { original: string } | null;
-  summary: string;
-}
-
 export default defineComponent({
   name: 'ShowDetail',
   components: {
@@ -36,7 +25,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore();
-    const show = ref<Show | null>(null);
+    const show = ref<any>({});
     const loading = ref(true);
     const error = ref(false);
     const errorMessage = ref('Error fetching show details. Please try again later.');
