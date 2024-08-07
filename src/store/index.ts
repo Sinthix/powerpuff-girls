@@ -2,9 +2,28 @@ import { createStore } from 'vuex';
 import axios from 'axios';
 import { API_ENDPOINTS } from '../configs/api';
 
+
+/** I could and should create a fodlder for the interfaces 
+ so I wouldn't repeat myself but this is just to show 
+how to fix the "any's" **/
+
+interface Show {
+  id: number;
+  name: string;
+  image: { original: string };
+  summary: string;
+}
+
+interface Episode {
+  id: number;
+  name: string;
+  season: number;
+  image: { medium: string };
+}
+
 interface State {
-  show: any;
-  episodes: any[];
+  show: Show | {};
+  episodes: Episode[];
 }
 
 const store = createStore<State>({
@@ -13,10 +32,10 @@ const store = createStore<State>({
     episodes: []
   },
   mutations: {
-    setShow(state, show) {
+    setShow(state, show: Show) {
       state.show = show;
     },
-    setEpisodes(state, episodes) {
+    setEpisodes(state, episodes: Episode[]) {
       state.episodes = episodes;
     }
   },
